@@ -1,0 +1,16 @@
+# зависимости и сборки
+node_modules/
+dist/
+*.log
+
+# личные медиа клиента (не публиковать)
+.media/
+.trash*/
+
+# временные артефакты проверок
+prototype/*.cjs
+prototype/*.png
+prototype/preview.html
+prototype/t.html
+prototype/shot*.js
+frontend/livecheck.*
