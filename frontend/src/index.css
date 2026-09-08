@@ -30,10 +30,10 @@ header.top{background:var(--card);border-bottom:1px solid var(--line);position:s
 .cat{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;background:none;border:0}
 .cat .ic{width:58px;height:58px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:25px;overflow:hidden}
 .cat.on .ic{background:var(--accent);border-color:var(--accent)}
-/* Иконка-картинка направления (кнопка от GPT): заполняет плитку целиком */
-.cat .ic:has(.dir-img){padding:0;background:#0d0f10;border-color:#0d0f10}
+/* Иконка-картинка направления (кнопка от GPT, уже скруглена и с гранью): показываем целиком, без рамки-ячейки */
+.cat .ic:has(.dir-img){padding:0;background:transparent;border-color:transparent;overflow:visible}
 .cat .ic .dir-img{width:100%!important;height:100%!important}
-.dir-img{border-radius:24%;object-fit:cover;vertical-align:middle;display:inline-block}
+.dir-img{object-fit:contain;vertical-align:middle;display:inline-block}
 .cat span{font-size:11px;color:var(--muted);line-height:1.2;max-width:70px}
 .cats::-webkit-scrollbar{display:none}
 
