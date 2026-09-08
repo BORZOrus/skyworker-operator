@@ -1,21 +1,21 @@
-// Моки для этапа «заглушки». Позже заменим на данные из API SkyWorker.
+// Моки для этапа «заглушки». Позже заменим на данные из API Skyworker.
 
 export type Tab = 'op' | 'sv'
 
-export interface Direction { icon: string; label: string }
+export interface Direction { icon: string; label: string; img?: string }
 
 export const DIRECTIONS: Direction[] = [
   { icon: '🧭', label: 'Все' },
-  { icon: '🌾', label: 'Агро' },
+  { icon: '🌾', label: 'Агро', img: 'icons/dir-agro.png' },
   { icon: '🎥', label: 'Фото/видео' },
-  { icon: '📐', label: 'Геодезия' },
+  { icon: '📐', label: 'Геодезия', img: 'icons/dir-geo.png' },
   { icon: '🗺', label: 'Картография' },
-  { icon: '🏗', label: 'Строительство' },
-  { icon: '🔍', label: 'Мониторинг' },
-  { icon: '🚨', label: 'Поиск-спас' },
-  { icon: '🛡', label: 'Охрана' },
-  { icon: '🌲', label: 'Лес' },
-  { icon: '📦', label: 'Доставка' },
+  { icon: '🏗', label: 'Строительный контроль' },
+  { icon: '🔍', label: 'Инспекция и мониторинг' },
+  { icon: '🧭', label: 'Поиск и спасение' },
+  { icon: '🛡', label: 'Охрана и патруль' },
+  { icon: '🌲', label: 'Лесное хозяйство' },
+  { icon: '📦', label: 'Грузовая доставка' },
   { icon: '➕', label: 'Другое' },
 ]
 
@@ -41,6 +41,31 @@ export interface Profile {
   about: string
   specs?: [string, string][]
   services?: string
+  site?: string        // сайт (усиливает доверие и полноту профиля)
+  socials?: string[]   // ссылки на соцсети (Instagram, TikTok, YouTube…) — можно несколько; источник для агентов-мониторинга
+  vat?: string         // НДС: 'Плательщик НДС' | 'Без НДС' — важно заказчикам для расчётов
+  legal?: string       // юрформа: ИП / ТОО / ФХ / физлицо
+  crops?: string[]     // агро: культуры, с которыми работает
+  works?: string[]     // агро: виды работ (короткие теги для карточки)
+}
+
+// Полнота профиля (0–100). Чем выше — тем выше карточка в поиске.
+// Это и есть честный рычаг мотивации: заполни больше — тебя чаще находят.
+export function profileCompleteness(p: Profile): number {
+  const checks = [
+    !!p.photo,
+    !!(p.gallery && p.gallery.length >= 2),
+    !!(p.specs && p.specs.length >= 3),
+    !!(p.about && p.about.length > 40),
+    p.pilot !== '—' && !!p.pilot,
+    !!p.services,
+    !!(p.equip && p.equip.length > 3),
+    !!p.exp,
+    !!p.site,
+    !!(p.socials && p.socials.length > 0),
+    !!(p.vat || p.legal),
+  ]
+  return Math.round((checks.filter(Boolean).length / checks.length) * 100)
 }
 
 export const OPERATORS: Profile[] = [
@@ -57,6 +82,9 @@ export const OPERATORS: Profile[] = [
       ['Бак-разбрасыватель', 'Да'], ['Автомобиль + прицеп', 'Да'], ['Ёмкость для воды', 'Да'],
     ],
     services: 'Гербициды / фунгициды / инсектициды / десикация / удобрения / семена',
+    site: 'ashat-agro.kz', socials: ['instagram.com/ashat.agrodrone', 'tiktok.com/@ashat.agro'],
+    crops: ['Пшеница', 'Ячмень', 'Рапс', 'Подсолнечник'],
+    works: ['Гербициды', 'Десикация', 'Внесение'],
   },
   {
     id: 'op2', ini: 'ДО', photo: 'agras_field.jpg', gallery: ['spraying_aerial.jpg', 'agras_field.jpg'], name: 'Данияр Оспанов', price: 'от 12 000 ₸', unit: '/ день',
@@ -64,10 +92,11 @@ export const OPERATORS: Profile[] = [
     region: 'Костанайская обл.', rate: '4.7', rev: 18, cat: 'Категория 1',
     pilot: '—', equip: 'Работает на технике заказчика', exp: 'Опыт 2 сезона',
     about: 'Оператор-опрыскиватель. Ищу сезонную занятость и разовые выезды.',
+    crops: ['Пшеница', 'Ячмень'], works: ['Гербициды', 'Опрыскивание'],
   },
   {
     id: 'op3', ini: 'МК', photo: 'mapping_drone.jpg', gallery: ['mapping_drone.jpg', 'spraying_aerial.jpg'], name: 'Марат Калиев', price: 'по запросу', unit: '', priceRequest: true,
-    type: 'Оператор · со своим БАС', dirs: ['Агро', 'Картография', 'Мониторинг'],
+    type: 'Оператор · со своим БАС', dirs: ['Агро', 'Картография', 'Инспекция и мониторинг'],
     region: 'Акмолинская обл.', rate: '4.8', rev: 26, cat: 'Категория 2',
     pilot: 'Свидетельство внешнего пилота', equip: 'DJI Mavic 3M (NDVI)', exp: 'Опыт 3 сезона · агроскаутинг',
     about: 'Оператор-универсал: обработка + карты полей и мониторинг NDVI.',
@@ -86,6 +115,7 @@ export const OPERATORS: Profile[] = [
     equip: 'DJI Mavic 3 Pro / Inspire', exp: 'Опыт 5 лет · реклама, события, недвижимость',
     specs: [['Разрешение', '6K'], ['Стабилизация', 'Механический подвес'], ['Ночная съёмка', 'Да'], ['Монтаж и цветокор', 'Да'], ['Оборудование', 'Mavic 3 Pro / Inspire']],
     about: 'Аэросъёмка: рекламные ролики, мероприятия, объекты, недвижимость. Монтаж включён.',
+    site: 'timur-aero.kz', socials: ['instagram.com/timur.aerial', 'tiktok.com/@timur.aerial', 'youtube.com/@timuraero'],
   },
   {
     id: 'op6', ini: 'АИ', photo: 'geodesy_site.jpg', gallery: ['geodesy_site.jpg'], name: 'Айдос Ибраев', price: 'от 30 000 ₸', unit: '/ день',
@@ -97,7 +127,7 @@ export const OPERATORS: Profile[] = [
   },
   {
     id: 'op7', ini: 'РК', photo: 'inspection_line.jpg', gallery: ['inspection_line.jpg'], name: 'Роман Ким', price: 'по запросу', unit: '', priceRequest: true,
-    type: 'Оператор · со своим БАС', dirs: ['Мониторинг', 'Инспекция'],
+    type: 'Оператор · со своим БАС', dirs: ['Инспекция и мониторинг', 'Инспекция'],
     region: 'Атырауская обл.', city: 'Атырау', rate: '4.7', rev: 15, cat: 'Категория 2', pilot: 'Свидетельство внешнего пилота',
     equip: 'DJI Matrice 350 · тепловизор', exp: 'Опыт 3 года · нефтегаз, ЛЭП',
     specs: [['Тепловизор', 'Да'], ['Зум-объектив', 'Да'], ['Объекты', 'ЛЭП · трубопроводы'], ['Отчёт с дефектами', 'Да'], ['Оборудование', 'Matrice 350']],
@@ -118,6 +148,9 @@ export const SERVICES: Profile[] = [
       ['Производительность', 'до 400 га/смена'], ['Охват', 'по всему РК'], ['Опыт', '3 года'],
     ],
     services: 'Гербициды / фунгициды / инсектициды / десикация / удобрения / семена',
+    vat: 'Плательщик НДС', legal: 'ТОО',
+    crops: ['Пшеница', 'Ячмень', 'Подсолнечник', 'Рапс', 'Кукуруза', 'Соя'],
+    works: ['Гербициды', 'Фунгициды', 'Десикация', 'Внесение'],
   },
   {
     id: 'sv2', ini: 'DS', photo: 'drone_closeup.jpg', gallery: ['drone_closeup.jpg', 'agras_field.jpg'], name: 'DronServis — агрообработка по области', price: 'по запросу', unit: '', priceRequest: true,
@@ -125,13 +158,22 @@ export const SERVICES: Profile[] = [
     rate: '4.8', rev: 24, cat: 'Категория 2', pilot: 'Свидетельство внешнего пилота',
     equip: 'DJI Agras T50', exp: '3 сезона',
     about: 'Оперативный выезд по области. Цену считаем индивидуально под поле и объём.',
+    crops: ['Пшеница', 'Ячмень', 'Лён'], works: ['Гербициды', 'Опрыскивание'],
+    legal: 'ИП', vat: 'Без НДС',
   },
   {
     id: 'sv3', ini: 'SK', photo: 'mapping_drone.jpg', gallery: ['mapping_drone.jpg', 'spraying_aerial.jpg', 'agras_field.jpg'], name: 'SkyAgro — внесение и мониторинг полей', price: 'от 1 100 ₸', unit: '/ га',
-    type: 'Услуги · компания', dirs: ['Агро', 'Картография', 'Мониторинг'], region: 'Костанайская обл.',
+    type: 'Услуги · компания', dirs: ['Агро', 'Картография', 'Инспекция и мониторинг'], region: 'Костанайская обл.',
     rate: '4.9', rev: 41, cat: 'Категория 3', pilot: 'Свидетельство внешнего пилота',
     equip: '3× DJI Agras T40 · NDVI-дрон', exp: '5 сезонов · карты внесения',
     about: 'Комплекс: съёмка полей, карты, дифференцированное внесение, обработка.',
+    crops: ['Пшеница', 'Ячмень', 'Кукуруза', 'Подсолнечник', 'Соя'],
+    works: ['Дифф. внесение', 'Мониторинг NDVI', 'Обработка'],
+    legal: 'ТОО', vat: 'Плательщик НДС',
+    specs: [
+      ['Категория', '3'], ['Оборудование', '3× DJI Agras T40 + NDVI'], ['Бригад', '2'],
+      ['Дифф. внесение по картам', 'Да'], ['RTK', 'Да'], ['Охват', 'Костанайская обл.'],
+    ],
   },
   {
     id: 'sv4', ini: 'AV', photo: 'video_city.jpg', gallery: ['video_city.jpg'], name: 'AeroVision — аэросъёмка под ключ', price: 'от 40 000 ₸', unit: '/ съёмка',
@@ -143,7 +185,7 @@ export const SERVICES: Profile[] = [
   },
   {
     id: 'sv5', ini: 'IL', photo: 'inspection_line.jpg', gallery: ['inspection_line.jpg', 'geodesy_site.jpg'], name: 'InspectLine — инспекция ЛЭП и трубопроводов', price: 'по запросу', unit: '', priceRequest: true,
-    type: 'Услуги · компания', dirs: ['Мониторинг', 'Инспекция'], region: 'Атырауская обл.', city: 'Атырау',
+    type: 'Услуги · компания', dirs: ['Инспекция и мониторинг', 'Инспекция'], region: 'Атырауская обл.', city: 'Атырау',
     rate: '4.9', rev: 27, cat: 'Категория 2', pilot: 'Свидетельство внешнего пилота',
     equip: 'DJI Matrice 350 · тепловизор · LiDAR', exp: '4 года · нефтегаз, энергетика',
     specs: [['Тепловизор', 'Да'], ['LiDAR', 'Да'], ['Объекты', 'ЛЭП · трубопроводы · резервуары'], ['Отчёт с дефектами', 'Да'], ['Оборудование', 'Matrice 350']],
@@ -151,7 +193,7 @@ export const SERVICES: Profile[] = [
   },
   {
     id: 'sv6', ini: 'DX', photo: 'delivery_box.jpg', gallery: ['delivery_box.jpg'], name: 'DronExpress — доставка грузов', price: 'от 5 000 ₸', unit: '/ доставка',
-    type: 'Услуги · ИП', dirs: ['Доставка'], region: 'Астана', city: 'Астана',
+    type: 'Услуги · ИП', dirs: ['Грузовая доставка'], region: 'Астана', city: 'Астана',
     rate: '4.6', rev: 12, cat: 'Категория 2', pilot: 'Свидетельство внешнего пилота',
     equip: 'Грузовые БАС до 10 кг', exp: '2 года · труднодоступные районы',
     specs: [['Грузоподъёмность', 'до 10 кг'], ['Дальность', 'до 30 км'], ['Труднодоступные районы', 'Да']],

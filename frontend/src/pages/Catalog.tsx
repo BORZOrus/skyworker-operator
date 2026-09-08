@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { DIRECTIONS, OPERATORS, SERVICES, type Profile, type Tab } from '../data'
+import { useLocation, Link } from 'react-router-dom'
+import { DIRECTIONS, OPERATORS, SERVICES, profileCompleteness, type Profile, type Tab } from '../data'
 import RegionPicker from '../components/RegionPicker'
 import { ProfileCard, ProfileModal, ContactModal } from '../components/profiles'
+import DirIcon from '../components/DirIcon'
 
 export default function Catalog() {
   const loc = useLocation()
@@ -37,11 +38,18 @@ export default function Catalog() {
     .sort((a, b) => {
       if (sort === 'price') return priceNum(a) - priceNum(b)
       if (sort === 'exp') return b.rev - a.rev
-      return parseFloat(b.rate) - parseFloat(a.rate)
+      if (sort === 'fill') return profileCompleteness(b) - profileCompleteness(a)
+      // По умолчанию — рейтинг, при равенстве полнее профиль выше
+      const byRate = parseFloat(b.rate) - parseFloat(a.rate)
+      return byRate !== 0 ? byRate : profileCompleteness(b) - profileCompleteness(a)
     })
 
   return (
     <>
+      <div className="pagehint">
+        <b>Каталог — постоянные анкеты.</b> Операторы, которые ищут работу, и компании, которые оказывают услуги. Выбирайте сами и связывайтесь. А если проще кинуть клич и получить отклики — вам на <Link to="/board">Доску заявок →</Link>
+      </div>
+
       <div className="segwrap">
         <div className="seg">
           <button className={tab === 'op' ? 'on' : ''} onClick={() => setTab('op')}>Операторы</button>
@@ -52,7 +60,7 @@ export default function Catalog() {
       <div className="cats">
         {DIRECTIONS.map((c, i) => (
           <button key={c.label} className={`cat ${i === dir ? 'on' : ''}`} onClick={() => setDir(i)}>
-            <div className="ic">{c.icon}</div>
+            <div className="ic"><DirIcon label={c.label} size={30} /></div>
             <span>{c.label}</span>
           </button>
         ))}
@@ -69,6 +77,7 @@ export default function Catalog() {
         <div className="count">Найдено <b>{list.length}</b> · {DIRECTIONS[dir].label}</div>
         <select className="sort" value={sort} onChange={(e) => setSort(e.target.value)}>
           <option value="rate">По рейтингу</option>
+          <option value="fill">Полнее профиль</option>
           <option value="price">Сначала дешевле</option>
           <option value="exp">Больше отзывов</option>
         </select>
@@ -77,6 +86,16 @@ export default function Catalog() {
       {list.length === 0 && (
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '30px 14px', color: 'var(--muted)' }}>
           По этому направлению пока нет анкет. Попробуйте другое направление или сбросьте поиск.
+        </div>
+      )}
+
+      {tab === 'op' && list.length > 0 && (
+        <div className="hire-cta">
+          <div>
+            <b>Не нашли подходящего оператора?</b>
+            <span>Опишите задачу — операторы откликнутся сами.</span>
+          </div>
+          <Link to="/post" state={{ role: 'customer' }} className="btn">Разместить заявку</Link>
         </div>
       )}
 
