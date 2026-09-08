@@ -7,14 +7,14 @@ export interface Direction { icon: string; label: string; img?: string }
 export const DIRECTIONS: Direction[] = [
   { icon: '🧭', label: 'Все' },
   { icon: '🌾', label: 'Агро', img: 'icons/dir-agro.png' },
-  { icon: '🎥', label: 'Фото/видео' },
+  { icon: '🎥', label: 'Фото/видео', img: 'icons/dir-photo.png' },
   { icon: '📐', label: 'Геодезия', img: 'icons/dir-geo.png' },
   { icon: '🗺', label: 'Картография' },
   { icon: '🏗', label: 'Строительный контроль', img: 'icons/dir-stroy.png' },
   { icon: '🔍', label: 'Инспекция и мониторинг' },
   { icon: '🧭', label: 'Поиск и спасение', img: 'icons/dir-rescue.png' },
   { icon: '🛡', label: 'Охрана и патруль' },
-  { icon: '🌲', label: 'Лесное хозяйство' },
+  { icon: '🌲', label: 'Лесное хозяйство', img: 'icons/dir-forest.png' },
   { icon: '📦', label: 'Грузовая доставка' },
   { icon: '➕', label: 'Другое' },
 ]
