@@ -5,7 +5,7 @@ export type Tab = 'op' | 'sv'
 export interface Direction { icon: string; label: string; img?: string }
 
 export const DIRECTIONS: Direction[] = [
-  { icon: '🧭', label: 'Все' },
+  { icon: '🧭', label: 'Все', img: 'icons/dir-all.png' },
   { icon: '🌾', label: 'Агро', img: 'icons/dir-agro.png' },
   { icon: '🎥', label: 'Фото/видео', img: 'icons/dir-photo.png' },
   { icon: '📐', label: 'Геодезия', img: 'icons/dir-geo.png' },
@@ -13,10 +13,10 @@ export const DIRECTIONS: Direction[] = [
   { icon: '🏗', label: 'Строительный контроль', img: 'icons/dir-stroy.png' },
   { icon: '🔍', label: 'Инспекция и мониторинг', img: 'icons/dir-inspect.png' },
   { icon: '🧭', label: 'Поиск и спасение', img: 'icons/dir-rescue.png' },
-  { icon: '🛡', label: 'Охрана и патруль' },
+  { icon: '🛡', label: 'Охрана и патруль', img: 'icons/dir-guard.png' },
   { icon: '🌲', label: 'Лесное хозяйство', img: 'icons/dir-forest.png' },
-  { icon: '📦', label: 'Грузовая доставка' },
-  { icon: '➕', label: 'Другое' },
+  { icon: '📦', label: 'Грузовая доставка', img: 'icons/dir-delivery.png' },
+  { icon: '➕', label: 'Другое', img: 'icons/dir-other.png' },
 ]
 
 export interface Profile {
