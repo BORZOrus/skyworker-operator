@@ -7,10 +7,10 @@ export default function Header() {
     <header className="top">
       <div className="hwrap">
         <Link to="/" className="logo">
-          <img src={`${BASE}brand/logo-horizontal-black.svg`} alt="SkyWorker" />
+          <img src={`${BASE}brand/logo-horizontal-black.svg`} alt="Skyworker" />
         </Link>
-        <div className="geo">📍 Астана ⌄</div>
-        <label className="search">🔎 <input placeholder="Поиск оператора, услуги, региона" /></label>
+        <div className="hspace" />
+        <Link to="/favorites" className="hicon" aria-label="Избранное">♡</Link>
         <Link to="/start" className="howlink">Как это работает</Link>
         <Link to="/login" className="btn enter">Войти</Link>
       </div>

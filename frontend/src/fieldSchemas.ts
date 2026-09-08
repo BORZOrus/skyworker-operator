@@ -21,19 +21,44 @@ export const FIELD_SCHEMAS: Record<string, DirectionSchema> = {
   'Агро': {
     status: 'ready',
     fields: [
-      { type: 'check', label: 'Гербицидная обработка', group: 'Услуги' },
-      { type: 'check', label: 'Фунгицидная обработка', group: 'Услуги' },
-      { type: 'check', label: 'Инсектицидная обработка', group: 'Услуги' },
-      { type: 'check', label: 'Десикация', group: 'Услуги' },
-      { type: 'check', label: 'Внесение удобрений', group: 'Услуги' },
-      { type: 'check', label: 'Подкормки', group: 'Услуги' },
-      { type: 'check', label: 'Разбрасывание семян', group: 'Услуги' },
-      { type: 'check', label: 'Подсчёт и мониторинг скота', group: 'Услуги' },
+      // Виды работ
+      { type: 'check', label: 'Гербицидная обработка', group: 'Виды работ' },
+      { type: 'check', label: 'Фунгицидная обработка', group: 'Виды работ' },
+      { type: 'check', label: 'Инсектицидная обработка', group: 'Виды работ' },
+      { type: 'check', label: 'Десикация', group: 'Виды работ' },
+      { type: 'check', label: 'Внесение удобрений (жидкие)', group: 'Виды работ' },
+      { type: 'check', label: 'Подкормки', group: 'Виды работ' },
+      { type: 'check', label: 'Разбрасывание семян / сыпучих', group: 'Виды работ' },
+      { type: 'check', label: 'Дифференцированное внесение (по картам)', group: 'Виды работ' },
+      { type: 'check', label: 'Подсчёт и мониторинг скота', group: 'Виды работ' },
+      // Культуры
+      { type: 'check', label: 'Пшеница', group: 'Культуры' },
+      { type: 'check', label: 'Ячмень', group: 'Культуры' },
+      { type: 'check', label: 'Подсолнечник', group: 'Культуры' },
+      { type: 'check', label: 'Рапс', group: 'Культуры' },
+      { type: 'check', label: 'Кукуруза', group: 'Культуры' },
+      { type: 'check', label: 'Соя', group: 'Культуры' },
+      { type: 'check', label: 'Лён', group: 'Культуры' },
+      { type: 'check', label: 'Хлопок', group: 'Культуры' },
+      { type: 'check', label: 'Сады / виноградники', group: 'Культуры' },
+      { type: 'check', label: 'Пастбища / луга', group: 'Культуры' },
+      // Техника
+      { type: 'select', label: 'Модель агродрона', options: ['DJI Agras T20/T25', 'DJI Agras T40', 'DJI Agras T50', 'DJI Agras T70P', 'DJI Agras T100', 'XAG', 'Другая'], group: 'Техника' },
+      { type: 'text', label: 'Количество дронов / бригад', group: 'Техника' },
+      { type: 'text', label: 'Производительность, га/смена', group: 'Техника' },
+      // Оборудование
       { type: 'check', label: 'Бак-разбрасыватель (для сыпучих)', group: 'Оборудование' },
+      { type: 'check', label: 'RTK-базовая станция', group: 'Оборудование' },
+      { type: 'check', label: 'Растворный узел / миксер', group: 'Оборудование' },
+      { type: 'check', label: 'Генератор для зарядки в поле', group: 'Оборудование' },
       { type: 'check', label: 'Автомобиль', group: 'Оборудование' },
       { type: 'check', label: 'Прицеп', group: 'Оборудование' },
       { type: 'check', label: 'Ёмкость для воды', group: 'Оборудование' },
-      { type: 'text', label: 'Обработано, га', group: 'Опыт' },
+      { type: 'check', label: 'Ночные смены (освещение)', group: 'Оборудование' },
+      // Условия и объём
+      { type: 'check', label: 'Работа после дождя / по влажному полю', group: 'Условия и объём' },
+      { type: 'text', label: 'Минимальный заказ, га', group: 'Условия и объём' },
+      { type: 'text', label: 'Обработано всего, га', group: 'Условия и объём' },
     ],
   },
   'Фото/видео': {
@@ -68,7 +93,7 @@ export const FIELD_SCHEMAS: Record<string, DirectionSchema> = {
       { type: 'select', label: 'ПО обработки', options: ['Pix4D', 'Agisoft Metashape', 'DroneDeploy', 'Другое'], group: 'Обработка' },
     ],
   },
-  'Мониторинг': {
+  'Инспекция и мониторинг': {
     status: 'draft',
     fields: [
       { type: 'check', label: 'Тепловизор', group: 'Оборудование' },
@@ -80,12 +105,48 @@ export const FIELD_SCHEMAS: Record<string, DirectionSchema> = {
       { type: 'check', label: 'Отчёт с выявленными дефектами', group: 'Услуги' },
     ],
   },
-  'Доставка': {
+  'Грузовая доставка': {
     status: 'draft',
     fields: [
       { type: 'text', label: 'Грузоподъёмность, кг', group: 'Параметры' },
       { type: 'text', label: 'Дальность, км', group: 'Параметры' },
       { type: 'check', label: 'Труднодоступные районы', group: 'Услуги' },
+    ],
+  },
+  'Строительный контроль': {
+    status: 'draft',
+    fields: [
+      { type: 'check', label: 'Мониторинг хода строительства', group: 'Работы' },
+      { type: 'check', label: 'Подсчёт объёмов (земляные работы, склады)', group: 'Работы' },
+      { type: 'check', label: '3D-модель объекта', group: 'Работы' },
+      { type: 'check', label: 'Фотофиксация для отчётов', group: 'Работы' },
+    ],
+  },
+  'Поиск и спасение': {
+    status: 'draft',
+    fields: [
+      { type: 'check', label: 'Тепловизор (поиск людей)', group: 'Оборудование' },
+      { type: 'check', label: 'Ночные полёты', group: 'Оборудование' },
+      { type: 'check', label: 'Громкоговоритель / сброс', group: 'Оборудование' },
+      { type: 'check', label: 'Готовность к срочному выезду', group: 'Условия' },
+    ],
+  },
+  'Охрана и патруль': {
+    status: 'draft',
+    fields: [
+      { type: 'check', label: 'Патрулирование периметра', group: 'Работы' },
+      { type: 'check', label: 'Ночная / тепловизионная съёмка', group: 'Оборудование' },
+      { type: 'check', label: 'Реагирование на тревогу', group: 'Работы' },
+      { type: 'text', label: 'Тип объектов', group: 'Работы' },
+    ],
+  },
+  'Лесное хозяйство': {
+    status: 'draft',
+    fields: [
+      { type: 'check', label: 'Учёт и таксация леса', group: 'Работы' },
+      { type: 'check', label: 'Раннее обнаружение пожаров', group: 'Работы' },
+      { type: 'check', label: 'Выявление вредителей / болезней', group: 'Работы' },
+      { type: 'check', label: 'Картирование лесных участков', group: 'Работы' },
     ],
   },
 }
@@ -94,3 +155,21 @@ export const FIELD_SCHEMAS: Record<string, DirectionSchema> = {
 export function getSchema(direction: string): DirectionSchema | null {
   return FIELD_SCHEMAS[direction] || null
 }
+
+// Профиль хозяйства заказчика (агро). Собираем добровольно — в обмен на
+// точные отклики: исполнитель сразу видит объём и культуру и даёт реальную цену,
+// без пустых звонков «а сколько гектаров?».
+export const FARM_SCHEMA: SchemaField[] = [
+  { type: 'check', label: 'Пшеница', group: 'Что выращиваете' },
+  { type: 'check', label: 'Ячмень', group: 'Что выращиваете' },
+  { type: 'check', label: 'Подсолнечник', group: 'Что выращиваете' },
+  { type: 'check', label: 'Рапс', group: 'Что выращиваете' },
+  { type: 'check', label: 'Кукуруза', group: 'Что выращиваете' },
+  { type: 'check', label: 'Соя', group: 'Что выращиваете' },
+  { type: 'check', label: 'Сады / виноградники', group: 'Что выращиваете' },
+  { type: 'text', label: 'Общая площадь, га', group: 'Хозяйство' },
+  { type: 'select', label: 'Тип земель', options: ['Богарные (без полива)', 'Орошаемые', 'Смешанные'], group: 'Хозяйство' },
+  { type: 'select', label: 'Рельеф', options: ['Равнина', 'Пологие склоны', 'Сложный рельеф'], group: 'Хозяйство' },
+  { type: 'select', label: 'Своя техника для обработки', options: ['Нет — нужна услуга под ключ', 'Есть дрон — нужен оператор', 'Есть, но не хватает мощности'], group: 'Хозяйство' },
+  { type: 'text', label: 'Сколько обработок за сезон обычно', group: 'Хозяйство' },
+]

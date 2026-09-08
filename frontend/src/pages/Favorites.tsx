@@ -19,7 +19,7 @@ export default function Favorites() {
         <>
           <div className="stub"><div className="big">♡</div>Здесь появятся сохранённые операторы и услуги. Нажмите сердечко на карточке в каталоге.</div>
           <div style={{ height: 16 }} />
-          <Link to="/" className="btn block ghost" style={{ display: 'block', textAlign: 'center' }}>← В каталог</Link>
+          <Link to="/" className="btn block ghost" style={{ display: 'block', textAlign: 'center' }}>← На главную</Link>
         </>
       ) : (
         <div className="grid" style={{ padding: '12px 0 30px' }}>
