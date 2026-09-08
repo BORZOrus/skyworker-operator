@@ -36,6 +36,9 @@ export default function AdModal({ ad, canRespond, onRespond, onClose }: {
                 <span>📍 {ad.city ? `${ad.city}, ${ad.region}` : ad.region}</span>
                 {ad.budget && <span>💰 {ad.budget}</span>}
               </div>
+              {ad.badges && ad.badges.length > 0 && (
+                <div className="adbadges" style={{ marginTop: 10 }}>{ad.badges.map((b) => <span className="adbadge" key={b}>{b}</span>)}</div>
+              )}
               {ad.details && ad.details.length > 0 && (
                 <div className="sec" style={{ marginTop: 12 }}><h4>Детали задачи</h4>
                   <div className="specs">{ad.details.map((d) => <div className="srow" key={d.label}><span>{d.label}</span><b>{d.value}</b></div>)}</div>

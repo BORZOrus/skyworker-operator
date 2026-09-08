@@ -143,6 +143,9 @@ export default function Board() {
                   <span>📍 {a.city ? `${a.city}, ${a.region}` : a.region}</span>
                   {a.budget && <span>💰 {a.budget}</span>}
                 </div>
+                {a.badges && a.badges.length > 0 && (
+                  <div className="adbadges">{a.badges.map((b) => <span className="adbadge" key={b}>{b}</span>)}</div>
+                )}
                 <p className="adbody">{a.body}</p>
                 <div className="adfoot">
                   <div className="adauthor2">
