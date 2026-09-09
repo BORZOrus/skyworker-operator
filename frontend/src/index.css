@@ -27,7 +27,7 @@ header.top{background:var(--card);border-bottom:1px solid var(--line);position:s
 .seg button.on{color:var(--accent);border-color:var(--accent)}
 
 .cats{max-width:1200px;margin:0 auto;padding:14px;display:grid;grid-auto-flow:column;grid-template-rows:1fr 1fr;gap:14px 10px;overflow-x:auto;grid-auto-columns:72px}
-.cat{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;background:none;border:0}
+.cat{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-align:center;background:none;border:0;-webkit-tap-highlight-color:transparent;outline:none}
 .cat .ic{width:58px;height:58px;border-radius:16px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:25px;overflow:hidden}
 .cat.on .ic{background:var(--accent);border-color:var(--accent)}
 /* Иконка-картинка направления (кнопка от GPT, уже скруглена и с гранью): показываем целиком, без рамки-ячейки */
@@ -35,6 +35,10 @@ header.top{background:var(--card);border-bottom:1px solid var(--line);position:s
 .cat .ic .dir-img{width:100%!important;height:100%!important}
 .dir-img{object-fit:contain;vertical-align:middle;display:inline-block}
 .cat span{font-size:11px;color:#3a4149;font-weight:600;line-height:1.2;max-width:70px}
+/* Активная кнопка направления: мягкое серое свечение сзади (не синий квадрат) */
+.cat .ic{transition:box-shadow .18s,transform .18s}
+.cat.on .ic{background:transparent;border-color:transparent;box-shadow:0 0 13px 3px rgba(90,98,108,.32);transform:translateY(-1px)}
+.cat.on span{color:#1a1d21}
 .cats::-webkit-scrollbar{display:none}
 
 .searchbar{max-width:1200px;margin:0 auto;padding:10px 14px 0;display:flex;gap:10px;flex-wrap:wrap}
