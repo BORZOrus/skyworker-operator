@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DIRECTIONS } from '../data'
 import { getSchema, type SchemaField } from '../fieldSchemas'
 import { REGIONS } from '../regions'
-import { getCompanyProfile, saveCompanyProfile, companyCompleteness, expLabels, type CompanyProfile } from '../store'
+import { getCompanyProfile, saveCompanyProfile, companyCompleteness, companyProfileIsDemo, expLabels, type CompanyProfile } from '../store'
 
 const AGRO = getSchema('Агро')!
 const AGRO_WORKS = AGRO.fields.filter((f) => f.group === 'Виды работ').map((f) => f.label)
@@ -39,6 +39,9 @@ export default function CompanyProfileView() {
 
   return (
     <div className="anketa">
+      {companyProfileIsDemo() && (
+        <div className="demo-banner">👀 Это пример профиля компании. Нажмите «Редактировать профиль» и заполните данные своей компании.</div>
+      )}
       {/* Документ-витрина */}
       <div className="resume-doc">
         <div className="rd-hero">

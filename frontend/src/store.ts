@@ -202,6 +202,10 @@ export const expLabels = (d: string) => EXP_LABELS[d] || { a: 'Лет опыта
 export function saveOperatorProfile(p: OperatorProfile): void {
   localStorage.setItem(OPROF_KEY, JSON.stringify(p))
 }
+// Профиль ещё не редактировался пользователем — показываем демонстрационный пример.
+export const operatorProfileIsDemo = () => !localStorage.getItem(OPROF_KEY)
+export const companyProfileIsDemo = () => !localStorage.getItem(CPROF_KEY)
+export const customerProfileIsDemo = () => !localStorage.getItem(CUPROF_KEY)
 // Полнота анкеты оператора (0–100)
 export function operatorCompleteness(p: OperatorProfile): number {
   const checks = [

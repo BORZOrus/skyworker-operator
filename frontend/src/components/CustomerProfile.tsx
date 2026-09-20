@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DIRECTIONS } from '../data'
 import { FARM_SCHEMA } from '../fieldSchemas'
 import { REGIONS } from '../regions'
-import { getCustomerProfile, saveCustomerProfile, customerCompleteness, type CustomerProfile } from '../store'
+import { getCustomerProfile, saveCustomerProfile, customerCompleteness, customerProfileIsDemo, type CustomerProfile } from '../store'
 
 const CROPS = FARM_SCHEMA.filter((f) => f.group === 'Что выращиваете').map((f) => f.label)
 const LAND_TYPES = ['Богарные (без полива)', 'Орошаемые', 'Смешанные']
@@ -41,6 +41,9 @@ export default function CustomerProfileView() {
 
   return (
     <div className="anketa">
+      {customerProfileIsDemo() && (
+        <div className="demo-banner">👀 Это пример профиля. Нажмите «Редактировать профиль» и заполните свои данные.</div>
+      )}
       <div className="note" style={{ marginTop: 0, marginBottom: 14 }}>Профиль <b>не публикуется в поиске</b> — он для доверия и безопасности. Исполнители, которым вы отвечаете, видят, что вы реальная компания или хозяйство.</div>
 
       {/* Документ-профиль */}

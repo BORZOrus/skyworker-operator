@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DIRECTIONS } from '../data'
 import { getSchema, type SchemaField } from '../fieldSchemas'
 import { REGIONS } from '../regions'
-import { getOperatorProfile, saveOperatorProfile, operatorCompleteness, expLabels, type OperatorProfile } from '../store'
+import { getOperatorProfile, saveOperatorProfile, operatorCompleteness, operatorProfileIsDemo, expLabels, type OperatorProfile } from '../store'
 
 const BASE = import.meta.env.BASE_URL
 const AGRO = getSchema('Агро')!
@@ -50,6 +50,9 @@ export default function OperatorAnketa() {
 
   return (
     <div className="anketa">
+      {operatorProfileIsDemo() && (
+        <div className="demo-banner">👀 Это пример анкеты, чтобы показать, как всё выглядит. Нажмите «Редактировать анкету» и заполните под себя.</div>
+      )}
       {/* Резюме-документ — всегда сверху, готовый вид */}
       <div className="resume-doc">
         <div className="rd-hero">
