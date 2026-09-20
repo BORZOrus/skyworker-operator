@@ -52,6 +52,7 @@ export default function PostRequest() {
   const [deadline, setDeadline] = useState('')
   const [reqs, setReqs] = useState('')
   const [adWorks, setAdWorks] = useState<Record<string, boolean>>({})
+  const [consent, setConsent] = useState(false)
   const toggleWork = (w: string) => setAdWorks((p) => ({ ...p, [w]: !p[w] }))
 
   const actions = role ? ACTIONS[role] : []
@@ -69,7 +70,7 @@ export default function PostRequest() {
 
   const chosenDirs = action?.multi ? dirsSel : [direction]
   const ok = title.trim().length > 3 && body.trim().length > 5 && author.trim().length > 1 &&
-    phone.replace(/\D/g, '').length >= 11 && chosenDirs.length > 0 && !operatorBlocked && !dirBlocked && !countBlocked
+    phone.replace(/\D/g, '').length >= 11 && chosenDirs.length > 0 && consent && !operatorBlocked && !dirBlocked && !countBlocked
 
   // Виды работ по направлению (для детализации объявления)
   const worksList = !action?.multi ? (getSchema(direction)?.fields.filter((f) => f.type === 'check' && (f.group === 'Виды работ' || f.group === 'Работы' || f.group === 'Услуги')).map((f) => f.label) || []) : []
@@ -241,7 +242,7 @@ export default function PostRequest() {
         <div className="field"><label>Телефон</label>
           <PhoneInput onChange={setPhone} />
         </div>
-        <label className="check consent"><input type="checkbox" defaultChecked /> <span>Согласен на публикацию объявления и обработку персональных данных согласно <Link to="/privacy" style={{ color: 'var(--accent)', fontWeight: 600 }}>Политике конфиденциальности</Link>.</span></label>
+        <label className="check consent"><input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} /> <span>Согласен на публикацию объявления и обработку персональных данных согласно <Link to="/privacy" style={{ color: 'var(--accent)', fontWeight: 600 }}>Политике конфиденциальности</Link>.</span></label>
       </div>
 
       <button className="btn block" disabled={!ok} onClick={publish}>Опубликовать</button>

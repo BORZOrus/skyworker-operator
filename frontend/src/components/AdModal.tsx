@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getDemoProfile } from '../demoData'
-import { isRegistered, type BoardAd } from '../store'
+import { hasResponded, type BoardAd } from '../store'
 import ProfileDoc from './ProfileDoc'
 import DirIcon from './DirIcon'
 
@@ -13,7 +13,7 @@ export default function AdModal({ ad, canRespond, onRespond, onClose }: {
 }) {
   const author = ad.authorId ? getDemoProfile(ad.authorId) : undefined
   const [showProfile, setShowProfile] = useState(false)
-  const reg = isRegistered()
+  const matched = hasResponded(ad.id) // контакт открывается только после отклика (взаимного интереса)
 
   return (
     <div className="overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
@@ -61,9 +61,9 @@ export default function AdModal({ ad, canRespond, onRespond, onClose }: {
 
               {/* Контакт */}
               <div className="sec"><h4>Контакт</h4>
-                {reg
+                {matched
                   ? <a className="adphone" href={`tel:${ad.phone.replace(/\s/g, '')}`}>{ad.phone}</a>
-                  : <div className="note" style={{ marginTop: 0 }}>🔒 Телефон откроется после регистрации (20 секунд).</div>}
+                  : <div className="note" style={{ marginTop: 0 }}>🔒 Телефон откроется после отклика и взаимного согласия сторон.</div>}
               </div>
 
               {canRespond && <button className="btn block" onClick={onRespond}>Откликнуться</button>}

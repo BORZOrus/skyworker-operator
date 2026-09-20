@@ -12,8 +12,8 @@ import { getAds, isRegistered, hasResponded, addResponseItem, type BoardAd, type
 
 const BASE = import.meta.env.BASE_URL
 
-function respondToAd(ad: BoardAd) {
-  addResponseItem({ adId: ad.id, adTitle: ad.title, adAuthor: ad.author, createdAt: new Date().toISOString() })
+function respondToAd(ad: BoardAd, msg?: string, file?: string) {
+  addResponseItem({ adId: ad.id, adTitle: ad.title, adAuthor: ad.author, createdAt: new Date().toISOString(), msg, file })
 }
 
 // Метка типа объявления + роль автора
@@ -70,12 +70,16 @@ export default function Board() {
     .filter((a) => dir === 0 || a.directions.includes(DIRECTIONS[dir].label))
     .filter((a) => {
       if (regions.length === 0) return true
+      // Оператор считается подходящим и по региону базирования, и по регионам, куда он готов на выезд.
+      const areas = [a.region, ...(a.travelRegions || [])]
       return regions.some((sel) => {
+        const selArea = sel.includes('|') ? sel.split('|')[0] : sel
+        if (a.travelAll) return true
         if (sel.includes('|')) {
           const [area, city] = sel.split('|')
-          return a.region === area && (a.city === city || !a.city)
+          if (a.region === area && (a.city === city || !a.city)) return true
         }
-        return a.region === sel || a.region.includes(sel)
+        return areas.some((ar) => ar === selArea || ar.includes(selArea))
       })
     })
 
@@ -181,7 +185,7 @@ export default function Board() {
         <RespondModal
           ad={respond}
           onClose={() => setRespond(null)}
-          onSent={() => { if (respond) { respondToAd(respond); force((n) => n + 1) } }}
+          onSent={(msg, file) => { if (respond) { respondToAd(respond, msg, file); force((n) => n + 1) } }}
         />
       )}
       {complain && (

@@ -91,6 +91,8 @@ export interface BoardAd {
   createdAt: string
   seed?: boolean          // демо-объявление
   authorId?: string       // ссылка на демо-профиль автора (портфолио)
+  travelAll?: boolean     // оператор готов работать по всему Казахстану
+  travelRegions?: string[]// регионы, куда оператор готов на выезд (кроме своего)
   badges?: string[]       // ключевые метки для карточки (категория, НДС, рейтинг…)
   details?: { label: string; value: string }[]  // структурированные детали задачи
 }
@@ -327,6 +329,8 @@ export interface ResponseItem {
   adTitle: string
   adAuthor: string
   createdAt: string
+  msg?: string           // сопроводительное сообщение отклика (не теряем)
+  file?: string          // имя приложенного файла (заглушка)
 }
 export function getResponseItems(): ResponseItem[] {
   try { return JSON.parse(localStorage.getItem(RESP_KEY) || '[]') } catch { return [] }
@@ -367,7 +371,7 @@ const SEED_ADS: BoardAd[] = [
   },
   {
     id: 'ad-seed-2', kind: 'op-seek', author: 'Ержан Каиров', authorRole: 'operator', authorId: 'op-erzhan',
-    directions: ['Агро', 'Инспекция и мониторинг'], region: 'Атырауская обл.',
+    directions: ['Агро', 'Инспекция и мониторинг'], region: 'Атырауская обл.', travelAll: true,
     title: 'Опытный оператор: агро + инспекция ЛЭП/трубопроводов',
     body: 'Опытный оператор, 7 лет. Агрообработка и тепловизионная инспекция промышленных объектов: ЛЭП, трубопроводы. Работал на нефтегаз. Все допуски и медсправка в порядке.',
     phone: '+7 701 000 00 07', createdAt: '2026-08-19T15:00:00.000Z', seed: true,
@@ -386,7 +390,7 @@ const SEED_ADS: BoardAd[] = [
   },
   {
     id: 'ad-seed-7', kind: 'op-seek', author: 'Асхат Жумабеков', authorRole: 'operator', authorId: 'op-ashat',
-    directions: ['Агро'], region: 'Акмолинская обл.',
+    directions: ['Агро'], region: 'Акмолинская обл.', travelRegions: ['Костанайская обл.', 'Северо-Казахстанская обл.'],
     title: 'Оператор-агро, 3 сезона, 12 000 га',
     body: 'Оператор-агро. Работаю на технике заказчика: гербициды, фунгициды, десикация, внесение. Аккуратно, в срок. Готов на сезон и разовые выезды. Есть портфолио и отзывы.',
     phone: '+7 701 000 00 08', createdAt: '2026-08-18T14:00:00.000Z', seed: true,

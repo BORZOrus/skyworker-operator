@@ -35,6 +35,8 @@ export default function Requests() {
                       <span className="reqstatus">Отклик отправлен</span>
                     </div>
                     <div className="reqmeta">Автор: {r.adAuthor} · {fmt(r.createdAt)}</div>
+                    {r.msg && <div className="reqmsg">«{r.msg}»</div>}
+                    {r.file && <div className="reqmeta">📎 {r.file}</div>}
                   </div>
                 ))}
               </div>

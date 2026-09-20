@@ -9,7 +9,7 @@ const ROLE_LABEL: Record<UserRole, string> = {
 // оператору не надо ничего заново заполнять. Можно добавить
 // сопроводительное сообщение и приложить файл (резюме/портфолио).
 export default function RespondModal({ ad, onClose, onSent }: {
-  ad: BoardAd; onClose: () => void; onSent: () => void
+  ad: BoardAd; onClose: () => void; onSent: (msg?: string, file?: string) => void
 }) {
   const user = getUser()
   const [msg, setMsg] = useState('')
@@ -17,7 +17,7 @@ export default function RespondModal({ ad, onClose, onSent }: {
   const [sent, setSent] = useState(false)
 
   function submit() {
-    onSent()          // фиксируем отклик сразу при отправке
+    onSent(msg.trim() || undefined, file || undefined)  // передаём сообщение и файл, не теряем их
     setSent(true)     // затем показываем экран подтверждения
   }
 
